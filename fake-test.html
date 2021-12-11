@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Fake Test Generator</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+        <script>
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const imgElement = document.getElementById("img");
+                const mainElement = document.getElementById("main");
+                const renderImageElement = document.getElementById("render-image");
+                const renderPdfElement = document.getElementById("render-pdf");
+                let ctx = mainElement.getContext("2d");
+
+                let name = document.getElementById("input-name");
+                let address = document.getElementById("input-address");
+                let zip = document.getElementById("input-zip");
+                let date = document.getElementById("input-date");
+                let birth = document.getElementById("input-birth");
+                let time = document.getElementById("input-time");
+                let administrator = document.getElementById("input-administrator");
+
+                date.value = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`;
+
+                function render() {
+                    ctx.drawImage(imgElement, 0, 0);
+                    ctx.font = "20px serif";
+
+                    ctx.fillText(name.value, 60, 260);
+                    ctx.fillText(address.value, 60, 290);
+                    ctx.fillText(zip.value, 60, 320);
+                    ctx.fillText(`${date.value.split("-")[2]}.${date.value.split("-")[1]}.${date.value.split("-")[0]}`, 709, 350);
+                    ctx.fillText(name.value, 349, 474);
+                    ctx.fillText(`${birth.value.split("-")[2]}.${birth.value.split("-")[1]}.${birth.value.split("-")[0]}`, 349, 500);
+                    ctx.fillText(`${date.value.split("-")[2]}.${date.value.split("-")[1]}.${date.value.split("-")[0]}`, 349, 527);
+                    ctx.fillText(`${time.value.split(":")[0]}:${time.value.split(":")[1]}`, 349, 554);
+                    ctx.fillText(administrator.value, 349, 607);
+                }
+
+                renderImageElement.addEventListener("click", () => {
+
+                    render();
+                    let a = document.createElement("a");
+                    a.href = mainElement.toDataURL();
+                    a.download = "test.png";
+                    a.click();
+
+                });
+
+                renderPdfElement.addEventListener("click", () => {
+
+                    render();
+                    const doc = new jspdf.jsPDF({
+                        format: "a4",
+                        unit:"mm",
+                        compress: true,
+                        putOnlyUsedFonts: true
+                    });
+                    doc.addImage(mainElement, null, 0, 0, 210, 297);
+                    doc.save("test.pdf");
+
+                });
+            });
+
+        </script>
+    </head>
+    <body>
+        <div>
+            
+            <label>
+                Name:
+                <input id="input-name" type="text" placeholder="Max Mustermann">
+            </label>
+
+            <br>
+            
+            <label>
+                Straße und Hausnummer:
+                <input id="input-address" type="text" placeholder="Mustweg 23">
+            </label>
+
+            <br>
+            
+            <label>
+                Postleitzahl und Ort:
+                <input id="input-zip" type="text" placeholder="01234 Musterstadt">
+            </label>
+
+            <br>
+            
+            <label>
+                Geburtstag:
+                <input id="input-birth" type="date">
+            </label>
+
+            <br>
+            
+            <label>
+                Datum:
+                <input id="input-date" type="date">
+            </label>
+
+            <br>
+            
+            <label>
+                Uhrzeit:
+                <input id="input-time" type="time" value="09:02">
+            </label>
+
+            <br>
+            
+            <label>
+                Administrator:
+                <input id="input-administrator" type="text" value="Sanna  Kolley">
+            </label>
+
+            <br>
+
+            <button id="render-image">
+                Render als Bild
+            </button>
+
+            <button id="render-pdf">
+                Render als PDF
+            </button>
+
+        </div>
+
+        <div>
+            <img id="img" src="test.png" style="display: none">
+            <canvas id="main" width="992" height="1404"></canvas>
+        </div>
+
+        <div>
+            <small>
+                Made with 🥩 by Phalaris.
+            </small>
+        </div>
+
+    </body>
+</html>
