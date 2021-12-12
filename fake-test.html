@@ -15,6 +15,16 @@
         </style>
         <script>
 
+            function save(name, address, zip, date, birth, time, administrator) {
+                localStorage.setItem("data", JSON.stringify({
+                    name, address, zip, date, birth, time, administrator
+                }));
+            }
+
+            function load() {
+                return (!!localStorage.getItem("data")) ? JSON.parse(localStorage.getItem("data")) : null;
+            }
+
             document.addEventListener("DOMContentLoaded", () => {
                 const imgElement = document.getElementById("img");
                 const mainElement = document.getElementById("main");
@@ -45,6 +55,8 @@
                     ctx.fillText(`${date.value.split("-")[2]}.${date.value.split("-")[1]}.${date.value.split("-")[0]}`, 349, 527);
                     ctx.fillText(`${time.value.split(":")[0]}:${time.value.split(":")[1]}`, 349, 553);
                     ctx.fillText(administrator.value, 349, 607);
+
+                    save(name.value, address.value, zip.value, date.value, birth.value, time.value, administrator.value);
                 }
 
                 renderImageElement.addEventListener("click", () => {
@@ -70,6 +82,18 @@
                     doc.save("test.pdf");
 
                 });
+
+                let data = load();
+                if (data) {
+                    name.value = data.name;
+                    address.value = data.address;
+                    zip.value = data.zip;
+                    date.value = data.date;
+                    birth.value = data.birth;
+                    time.value = data.time;
+                    administrator.value = data.administrator;
+                }
+                
             });
 
         </script>
