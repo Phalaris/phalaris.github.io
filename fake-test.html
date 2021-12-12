@@ -5,6 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Fake Test Generator</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+        <style>
+            @font-face {
+                font-family: "TimesNewRoman";
+                src: local("Times New Roman"), url('times-new-roman.ttf') format("truetype"), url("times-new-roman.otf") format("opentype"), local("serif");
+                font-weight: normal;
+                font-style: normal;
+            }
+        </style>
         <script>
 
             document.addEventListener("DOMContentLoaded", () => {
@@ -26,7 +34,7 @@
 
                 function render() {
                     ctx.drawImage(imgElement, 0, 0);
-                    ctx.font = "20px serif";
+                    ctx.font = '20px "TimesNewRoman",serif';
 
                     ctx.fillText(name.value, 60, 260);
                     ctx.fillText(address.value, 60, 290);
@@ -35,7 +43,7 @@
                     ctx.fillText(name.value, 349, 474);
                     ctx.fillText(`${birth.value.split("-")[2]}.${birth.value.split("-")[1]}.${birth.value.split("-")[0]}`, 349, 500);
                     ctx.fillText(`${date.value.split("-")[2]}.${date.value.split("-")[1]}.${date.value.split("-")[0]}`, 349, 527);
-                    ctx.fillText(`${time.value.split(":")[0]}:${time.value.split(":")[1]}`, 349, 554);
+                    ctx.fillText(`${time.value.split(":")[0]}:${time.value.split(":")[1]}`, 349, 553);
                     ctx.fillText(administrator.value, 349, 607);
                 }
 
